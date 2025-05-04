@@ -1,19 +1,16 @@
-import { Category, Country, NewsResponse } from '@/types';
+import { Category, NewsDataArticle, NewsResponse } from '@/types';
 
 export async function fetchNews(
-  category: Category,
-  country: Country
+  category: Category
 ): Promise<NewsResponse> {
-  // Try to get from environment variable first
-  let apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
+  // Get API key from environment variable
+  const apiKey = process.env.NEXT_PUBLIC_NEWSDATA_API_KEY || process.env.NEXT_PUBLIC_NEWS_API_KEY;
   
-  // Fallback to hardcoded key for development
   if (!apiKey) {
-    apiKey = '3983c8da8fe9436faf2ab73372ae765a';
-    console.log('Using fallback API key');
+    throw new Error('NewsData API key not found in environment variables');
   }
-
-  const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`;
+  
+  const url = `https://newsdata.io/api/1/latest?apikey=${apiKey}&category=${category}&language=en&country=us`;
   
   const response = await fetch(url, { next: { revalidate: 3600 } });
   
@@ -21,5 +18,26 @@ export async function fetchNews(
     throw new Error(`Failed to fetch news: ${response.statusText}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  // Transform the response to match our app's expected format
+  const transformedData: NewsResponse = {
+    status: data.status,
+    totalResults: data.totalResults || 0,
+    articles: data.results ? data.results.map((article: NewsDataArticle) => ({
+      source: {
+        id: article.source_id,
+        name: article.source_id || "Unknown Source"
+      },
+      author: article.creator ? article.creator.join(", ") : null,
+      title: article.title,
+      description: article.description,
+      url: article.link,
+      urlToImage: article.image_url,
+      publishedAt: article.pubDate,
+      content: article.content
+    })) : []
+  };
+  
+  return transformedData;
 } 

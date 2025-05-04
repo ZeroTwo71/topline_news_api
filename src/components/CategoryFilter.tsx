@@ -14,7 +14,6 @@ export default function CategoryFilter({
     "science",
     "technology",
     "entertainment",
-    "general",
     "health",
     "sports",
   ];
@@ -22,7 +21,7 @@ export default function CategoryFilter({
   return (
     <div className="mb-8">
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"></label>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2">
         {categories.map((category) => (
           <button
             key={category}

@@ -9,7 +9,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 
 async function getNewsData(category: Category): Promise<NewsResponse> {
   try {
-    return await fetchNews(category, "us");
+    return await fetchNews(category);
   } catch (error) {
     console.error("Error fetching news:", error);
     return {

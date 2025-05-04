@@ -18,5 +18,22 @@ export type NewsResponse = {
   articles: NewsArticle[];
 };
 
-export type Category = 'business' | 'science' | 'technology' | 'entertainment' | 'general' | 'health' | 'sports';
-export type Country = 'us' | 'id'; 
+export type NewsDataArticle = {
+  article_id: string;
+  title: string;
+  link: string;
+  description: string | null;
+  content: string | null;
+  pubDate: string;
+  image_url: string | null;
+  source_id: string;
+  source_url: string | null;
+  creator: string[] | null;
+  keywords: string[] | null;
+  video_url: string | null;
+  country: string[];
+  category: string[];
+  language: string;
+};
+
+export type Category = 'business' | 'science' | 'technology' | 'entertainment' | 'health' | 'sports'; 

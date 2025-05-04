@@ -41,12 +41,12 @@ export default function RootLayout({
             <p className="mb-1">
               Powered by{" "}
               <a
-                href="https://newsapi.org"
+                href="https://newsdata.io"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"
               >
-                NewsAPI.org
+                NewsData.io
               </a>{" "}
               | &copy; {new Date().getFullYear()} Roby Firmansyah N.
             </p>
